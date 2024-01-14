@@ -4,7 +4,7 @@ const queue = new AsyncQueue(3);
 const wait = [5, 3, 7, 4, 6, 2, 5];
 
 wait.forEach((sec, ind) => {
-	const fun = () => {
+	const func = () => {
 		return new Promise((resolve, reject) => {
 			setTimeout(() => {
 				if (ind % 2 === 0) {
@@ -15,7 +15,7 @@ wait.forEach((sec, ind) => {
 			}, sec * 1000);
 		});
 	};
-	queue.enqueue(fun)
+	queue.enqueue(func)
 		.then(val => console.log(val))
 		.catch(err => console.log(err));
 });

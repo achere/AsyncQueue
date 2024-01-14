@@ -61,14 +61,13 @@ export default class AsyncQueue {
 
     /**
     * Enqueues a function that returns a promise
-    * @param {returnsPromise} fun - Function that returns a promise
+    * @param {returnsPromise} func - Function that returns a promise
     */
-    enqueue(fun) {
+    enqueue(func) {
         return new Promise((resolve, reject) => {
-
             if (this.size < this.allowedSize) {
                 this.size++;
-                fun()
+                func()
                     .then((val) => resolve(val))
                     .catch((err) => reject(err))
                     .finally(() => this.done());
@@ -77,7 +76,7 @@ export default class AsyncQueue {
 
             this.length++;
             const node = {
-                start: fun,
+                start: func,
                 resolve,
                 reject,
             }
@@ -113,14 +112,5 @@ export default class AsyncQueue {
                 .catch(err => head.reject(err))
                 .finally(() => this.done());
         }
-    }
-
-    /**
-    * Runs when promise enqueued by a returned function rejects
-    * @private
-    * @param {*} error - Whatever format is returned by promise rejection
-    */
-    handleError(error) {
-        console.error(error);
     }
 }
