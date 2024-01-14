@@ -68,8 +68,8 @@ export default class AsyncQueue {
             if (this.size < this.allowedSize) {
                 this.size++;
                 func()
-                    .then((val) => resolve(val))
-                    .catch((err) => reject(err))
+                    .then(val => resolve(val))
+                    .catch(err => reject(err))
                     .finally(() => this.done());
                 return;
             }
@@ -108,7 +108,7 @@ export default class AsyncQueue {
             head.next = undefined;
 
             head.start()
-                .then((val) => head.resolve(val))
+                .then(val => head.resolve(val))
                 .catch(err => head.reject(err))
                 .finally(() => this.done());
         }
